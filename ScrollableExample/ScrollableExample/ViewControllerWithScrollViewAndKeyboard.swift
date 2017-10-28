@@ -47,22 +47,8 @@ class ViewControllerWithScrollViewAndKeyboard: UIViewController, UITextFieldDele
     var keyboardHeight: CGFloat = 0
     var isKeyboardVisible: Bool = false
     
-    lazy var textFields: [UITextField] =
-        {
-            if let scrollV = scrollView {
-                let container = scrollV.subviews[0]
-                
-                var tmpTextFields = [UITextField]()
-                for view in container.subviews {
-                    if view is UITextField {
-                        tmpTextFields.append(view as! UITextField)
-                    }
-                }
-                return tmpTextFields
-            }
-            
-            return []
-    }()
+    var textFields: [UITextField] = [UITextField]()
+    var textViews: [UITextView] = [UITextView]()
     
     func bottomTextFieldReturnAction() {
     }
@@ -79,6 +65,9 @@ class ViewControllerWithScrollViewAndKeyboard: UIViewController, UITextFieldDele
         
         originalContentInsetBottom = scrollView?.contentInset.bottom ?? 0
         originalScrollIndicatorInsetsBottom = scrollView?.scrollIndicatorInsets.bottom ?? 0
+        
+        textFields = findTextFields()
+        textViews = findTextViews()
         
         setReturnKeys(inputs: textFields)
     }
@@ -215,6 +204,38 @@ class ViewControllerWithScrollViewAndKeyboard: UIViewController, UITextFieldDele
 }
 
 private extension ViewControllerWithScrollViewAndKeyboard {
+    func findTextFields() -> [UITextField] {
+        if let scrollV = scrollView {
+            let container = scrollV.subviews[0]
+            
+            var inputs = [UITextField]()
+            for view in container.subviews {
+                if view is UITextField {
+                    inputs.append(view as! UITextField)
+                }
+            }
+            return inputs
+        }
+
+        return [UITextField]()
+    }
+    
+    func findTextViews() -> [UITextView] {
+        if let scrollV = scrollView {
+            let container = scrollV.subviews[0]
+            
+            var inputs = [UITextView]()
+            for view in container.subviews {
+                if view is UITextView {
+                    inputs.append(view as! UITextView)
+                }
+            }
+            return inputs
+        }
+        
+        return [UITextView]()
+    }
+    
     func setReturnKeys(inputs: [UITextField]) {
         for (index, textField) in textFields.enumerated() {
             if index == textFields.count - 1 {
