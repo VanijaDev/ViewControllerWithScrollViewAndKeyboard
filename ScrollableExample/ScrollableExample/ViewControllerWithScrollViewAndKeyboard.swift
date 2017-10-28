@@ -5,8 +5,11 @@ import UIKit
 
 class ViewControllerWithScrollViewAndKeyboard: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
 {
+    
+    let BOTTOM_MARGIN: CGFloat = 10.0
+    
     var bottomMargin: CGFloat {
-        return 10
+        return BOTTOM_MARGIN
     }
     
     var bottomViewFrame: CGRect? {
